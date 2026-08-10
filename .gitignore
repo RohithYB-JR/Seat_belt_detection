@@ -1,0 +1,59 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# YOLO training runs
+runs/
+
+# Dataset generated files
+datasets/Bin/
+
+# Video files
+datasets/videos/
+
+# Generated image datasets
+# Uncomment these if you do not want to upload the dataset
+# datasets/images/
+
+# Model weights
+# Uncomment if you do not want to upload trained models
+# models/*.pt
+
+# Evaluation outputs
+runs/
+
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.*
+
+# User datasets
+datasets/
+
+# YOLO pretrained weights
+yolo11n.pt
+yolo11n-cls.pt
