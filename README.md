@@ -4,7 +4,7 @@ A modular and reusable seat-belt detection system built using Python, OpenCV, an
 
 The system is designed to detect people in camera frames and classify whether a seat belt is being worn or not. It also provides a complete dataset preparation and model training pipeline so that users can train the system using their own datasets.
 
-The project supports both direct image datasets and video-based datasets. Videos containing "with seat belt" and "without seat belt" examples can be automatically converted into images before continuing through the dataset preparation and training pipeline.
+The project supports both direct image datasets and video-based datasets. Videos containing `with seat belt` and `without seat belt` examples can be automatically converted into images before continuing through the dataset preparation and training pipeline.
 
 The system can be used for:
 
@@ -16,7 +16,7 @@ The system can be used for:
 - YOLO11 classification training
 - Model evaluation
 - Real-time inference
-- Future integration with embedded and IoT systems
+- Future embedded and IoT integration
 
 ## Features
 
@@ -48,8 +48,8 @@ The system has two main workflows.
 
 A user can provide either images or videos containing two classes:
 
-- `with` — person wearing a seat belt
-- `without` — person not wearing a seat belt
+- `with` - person wearing a seat belt
+- `without` - person not wearing a seat belt
 
 If videos are provided, the optional video-to-image stage extracts frames from the videos.
 
@@ -81,56 +81,70 @@ Trained Model
        |
        v
 Model Evaluation
+```
+
+### 2. Live Detection Workflow
+
+After a trained seat-belt classification model is available, the live detection system works as follows:
+
+```text
+Camera
+   |
+   v
+Camera Frame
+   |
+   v
+Person Detection
+   |
+   v
+Person Crop
+   |
+   v
+Seat-Belt Classification
+   |
+   v
+Detection Result
+   |
+   +---- Person Bounding Box
+   |
+   +---- Seat-Belt Status
+   |
+   +---- Confidence Score
+```
 
 ## Project Structure
 
+The GitHub repository contains the source code and project configuration files.
+
+Large datasets, training outputs, virtual environments, and model weights are intentionally excluded from the repository using `.gitignore`.
+
 ```text
 Seat_belt_detection/
-│
-├── main.py
-├── pipeline.py
-├── requirements.txt
-├── LICENSE
-├── .gitignore
-│
-├── datasets/
-│   ├── images/
-│   │   ├── with/
-│   │   └── without/
-│   │
-│   ├── videos/
-│   │   ├── with/
-│   │   └── without/
-│   │
-│   └── classification/
-│       ├── train/
-│       │   ├── with/
-│       │   └── without/
-│       ├── val/
-│       │   ├── with/
-│       │   └── without/
-│       └── test/
-│           ├── with/
-│           └── without/
-│
-├── models/
-│   └── best.pt
-│
-├── runs/
-│   ├── seat_belt_classifier/
-│   └── evaluation/
-│
-└── src/
-    ├── camera.py
-    ├── video_to_images.py
-    ├── clean_dataset.py
-    ├── dataset_analysis.py
-    ├── number_dataset.py
-    ├── split_dataset.py
-    ├── train_classifier.py
-    ├── evaluate_model.py
-    ├── person_detector.py
-    └── seatbelt_detector.py
+|
++-- main.py
++-- pipeline.py
++-- requirements.txt
++-- LICENSE
++-- .gitignore
+|
++-- src/
+|   +-- camera.py
+|   +-- video_to_images.py
+|   +-- clean_dataset.py
+|   +-- dataset_analysis.py
+|   +-- number_dataset.py
+|   +-- split_dataset.py
+|   +-- train_classifier.py
+|   +-- evaluate_model.py
+|   +-- inference.py
+|   +-- person_detector.py
+|   +-- seatbelt_detector.py
+|
++-- datasets/              # Local only, ignored by Git
++-- models/                # Local only, ignored by Git
++-- runs/                  # Local only, ignored by Git
++-- .venv/                 # Local only, ignored by Git
+```
 
 ## Requirements
 
@@ -141,7 +155,7 @@ Seat_belt_detection/
 - Git
 - OpenCV
 - Ultralytics YOLO11
-- TensorFlow
+- PyTorch
 - NumPy
 - scikit-learn
 - Matplotlib
@@ -149,7 +163,7 @@ Seat_belt_detection/
 
 ### Hardware
 
-The project can run on a CPU-only system, but training and real-time inference performance depends heavily on the hardware.
+The project can run on a CPU-only system, but training and real-time inference performance depend heavily on the available hardware.
 
 #### Minimum
 
@@ -159,8 +173,9 @@ Storage : 10 GB+ recommended
 CPU     : Multi-core processor
 Camera  : USB or built-in camera
 GPU     : Not required
+```
 
-#### Recommendation
+#### Recommended
 
 ```text
 RAM     : 16 GB+
@@ -168,10 +183,9 @@ Storage : SSD
 CPU     : Modern multi-core processor
 GPU     : NVIDIA GPU with CUDA support
 Camera  : USB or built-in camera
+```
 
 For embedded or IoT deployment, a GPU-enabled device such as an NVIDIA Jetson-class platform is more suitable for real-time inference than a low-power CPU-only system.
-
----
 
 ## Installation
 
@@ -180,47 +194,65 @@ For embedded or IoT deployment, a GPU-enabled device such as an NVIDIA Jetson-cl
 Clone the repository using Git:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/RohithYB-JR/Seat_belt_detection.git
+cd Seat_belt_detection
+```
 
 ### 2. Create a Virtual Environment
 
 Create a Python virtual environment:
 
+```bash
 python -m venv .venv
+```
 
 ### 3. Activate the Virtual Environment
 
-Windows PowerShell
+#### Windows PowerShell
 
+```powershell
 .\.venv\Scripts\Activate.ps1
+```
 
-Windows Command Prompt
+#### Windows Command Prompt
 
+```cmd
 .venv\Scripts\activate
+```
 
 ### 4. Install Dependencies
 
 Install all required Python packages:
 
+```bash
 pip install -r requirements.txt
+```
 
 ### 5. Verify the Installation
 
 Check the Python version:
 
+```bash
 python --version
+```
 
 Check the Ultralytics installation:
 
+```bash
 python -c "import ultralytics; print(ultralytics.__version__)"
+```
 
 Check OpenCV:
 
+```bash
 python -c "import cv2; print(cv2.__version__)"
+```
 
 Check PyTorch:
 
+```bash
 python -c "import torch; print(torch.__version__)"
+```
 
 The project is now ready for dataset preparation, model training, evaluation, and live inference.
 
@@ -233,8 +265,8 @@ The project supports two ways of providing a dataset:
 
 The dataset contains two classes:
 
-- `with` — person wearing a seat belt
-- `without` — person not wearing a seat belt
+- `with` - person wearing a seat belt
+- `without` - person not wearing a seat belt
 
 ### Option 1: Using Images
 
@@ -242,24 +274,33 @@ Place the images into:
 
 ```text
 datasets/
-└── images/
-    ├── with/
-    └── without/
+|
++-- images/
+    |
+    +-- with/
+    |
+    +-- without/
+```
 
 ### Option 2: Using Videos
 
-If the user has videos instead of individual images, they can place the videos into:
+If the user has videos instead of individual images, place the videos into:
 
 ```text
 datasets/
-└── videos/
-    ├── with/
-    └── without/
+|
++-- videos/
+    |
+    +-- with/
+    |
+    +-- without/
+```
 
 The videos are then converted into individual images by the video-to-image extraction stage.
 
-The extracted images are placed into the corresponding image class:
+The extracted images are placed into the corresponding image class.
 
+```text
 datasets/videos/with/
         |
         v
@@ -267,9 +308,11 @@ Video-to-Image Extraction
         |
         v
 datasets/images/with/
+```
 
 and:
 
+```text
 datasets/videos/without/
         |
         v
@@ -277,35 +320,45 @@ Video-to-Image Extraction
         |
         v
 datasets/images/without/
+```
 
-This allows users to build an image dataset directly from their recorded videos.
+This allows users to build an image dataset directly from recorded videos.
 
-Selecting the Dataset Input Method
+### Selecting the Dataset Input Method
 
 When the master pipeline is started:
 
+```bash
 python pipeline.py
+```
 
 the user is asked:
 
+```text
 Do you want to extract images from videos? (y/n):
+```
 
 If the user enters:
 
+```text
 y
+```
 
 the video-to-image extraction stage is executed.
 
 If the user enters:
 
+```text
 n
+```
 
 the video extraction stage is skipped and the existing image dataset is used.
 
-Dataset Preparation Pipeline
+## Dataset Preparation Pipeline
 
 After the image dataset is available, it passes through the following stages:
 
+```text
 Image Dataset
       |
       v
@@ -319,23 +372,27 @@ Dataset Numbering
       |
       v
 Train / Validation / Test Split
+```
 
 The final classification dataset is organized as:
 
 ```text
 datasets/
-└── classification/
-    ├── train/
-    │   ├── with/
-    │   └── without/
-    │
-    ├── val/
-    │   ├── with/
-    │   └── without/
-    │
-    └── test/
-        ├── with/
-        └── without/
+|
++-- classification/
+    |
+    +-- train/
+    |   +-- with/
+    |   +-- without/
+    |
+    +-- val/
+    |   +-- with/
+    |   +-- without/
+    |
+    +-- test/
+        +-- with/
+        +-- without/
+```
 
 This classification dataset is used by the YOLO11 classification training and evaluation stages.
 
@@ -347,6 +404,21 @@ The pipeline can be started from the project root using:
 
 ```bash
 python pipeline.py
+```
+
+The master pipeline performs the following stages:
+
+```text
+1. Video -> Images (optional)
+2. Dataset Cleaning
+3. Dataset Analysis
+4. Dataset Numbering
+5. Train / Validation / Test Split
+6. YOLO11 Classification Training
+7. Model Evaluation
+```
+
+If any stage fails, the pipeline stops and reports the stage that caused the failure.
 
 ## Model Training
 
@@ -356,6 +428,19 @@ The training script is:
 
 ```text
 src/train_classifier.py
+```
+
+The trained model is generated locally during the training process.
+
+The trained model is intentionally excluded from GitHub using `.gitignore` because model weight files can be large.
+
+The local trained model is stored in:
+
+```text
+models/
+|
++-- best.pt
+```
 
 ## Model Evaluation
 
@@ -365,25 +450,75 @@ The evaluation script is:
 
 ```text
 src/evaluate_model.py
+```
+
+The evaluation stage provides model performance information such as:
+
+- Accuracy
+- Classification report
+- Confusion matrix
+
+The exact results depend on the dataset and trained model.
 
 ## Live Camera Inference
 
-The live detection system uses a camera to detect people and classify their seat-belt status in real time.
+The live detection system uses a camera to detect people and classify their seat-belt status.
 
 The main application is:
 
 ```text
 main.py
+```
+
+Run the live detection system using:
+
+```bash
+python main.py
+```
+
+The application detects available cameras and allows the user to select a camera.
+
+The system then:
+
+1. Captures a camera frame.
+2. Detects people using YOLO11.
+3. Extracts each detected person's image crop.
+4. Passes the crop to the seat-belt classifier.
+5. Displays the person bounding box.
+6. Displays the seat-belt classification result.
+7. Displays confidence values.
+
+The live detection window can be closed using:
+
+```text
+Q
+```
+
+or:
+
+```text
+ESC
+```
 
 ## Performance and Hardware
 
-The system supports CPU-only execution, but inference speed depends on the processor, image resolution, model size, and number of models being executed.
+The system supports CPU-only execution, but inference speed depends on:
+
+- CPU performance
+- Image resolution
+- Model size
+- Number of detected people
+- Number of inference operations
+- Camera frame rate
+- Hardware acceleration
 
 ### CPU-Only Execution
 
 The system can run without an NVIDIA GPU.
 
-On low-power or older CPUs, live detection may produce a low FPS because the application performs multiple inference operations for each camera frame:
+On low-power or older CPUs, live detection may produce a low FPS because the application performs multiple inference operations for each camera frame.
+
+The basic processing flow is:
 
 ```text
 Camera Frame
@@ -396,24 +531,39 @@ Person Crop
      |
      v
 Seat-Belt Classification
+```
+
+For example, on a CPU-only system, the processing time of person detection and seat-belt classification can significantly reduce the resulting real-time FPS.
 
 ### GPU Acceleration
 
 For higher real-time performance, an NVIDIA GPU with CUDA support is recommended.
 
-A GPU can accelerate the neural-network inference operations and provide substantially higher FPS compared with CPU-only execution.
+A GPU can accelerate neural-network inference operations and provide substantially higher performance compared with CPU-only execution.
 
 ## Model and File Management
 
 The project uses multiple model files during training and inference. These files have different purposes and should not be treated as the same model.
 
+### Person Detection Model
+
+The project uses a YOLO11 model for person detection.
+
+The model is stored locally and excluded from GitHub because model weights are not required to be tracked as source code.
+
 ### Trained Seat-Belt Model
 
-The trained seat-belt classification model is stored as:
+The trained seat-belt classification model is stored locally as:
 
 ```text
 models/
-└── best.pt
+|
++-- best.pt
+```
+
+The `best.pt` file is excluded from the GitHub repository using `.gitignore`.
+
+Users must provide or generate the required model files locally before running the complete inference workflow.
 
 ## Running the Complete Project
 
@@ -428,10 +578,30 @@ After installing the requirements and preparing the dataset, run the master pipe
 
 ```bash
 python pipeline.py
+```
+
+Follow the prompts displayed by the pipeline.
+
+### Live Detection Workflow
+
+After the required models are available locally, run:
+
+```bash
+python main.py
+```
+
+Select the available camera when prompted.
 
 ## Customization and Configuration
 
-The project is designed to allow users to modify the dataset, training configuration, detection confidence, and other settings according to their requirements.
+The project is designed to allow users to modify:
+
+- Dataset
+- Dataset classes
+- Training configuration
+- Detection confidence
+- Camera selection
+- Model configuration
 
 ### Dataset Classes
 
@@ -440,6 +610,11 @@ The current classifier uses two classes:
 ```text
 with
 without
+```
+
+The `with` class represents a person wearing a seat belt.
+
+The `without` class represents a person not wearing a seat belt.
 
 ## Limitations
 
@@ -449,7 +624,7 @@ The current version of the project is a functional prototype and has some limita
 
 The system can run on CPU-only hardware, but live inference performance can be low on older or low-power processors.
 
-The live pipeline performs person detection followed by seat-belt classification, which requires two inference operations for each frame.
+The live pipeline performs person detection followed by seat-belt classification, which requires multiple inference operations.
 
 ### Detection Accuracy
 
@@ -487,8 +662,6 @@ Real-time performance depends on the hardware used for deployment.
 
 A CPU-only system may provide significantly lower FPS than a GPU-accelerated system.
 
----
-
 ## Future Improvements
 
 The project is designed to be extended beyond the current prototype.
@@ -524,6 +697,7 @@ Seat-Belt Detection
    |
    v
 Seat-Belt Status
+```
 
 ## Project Status
 
@@ -580,7 +754,6 @@ This project uses and builds upon several open-source technologies and libraries
 - OpenCV
 - Ultralytics YOLO11
 - PyTorch
-- TensorFlow
 - NumPy
 - scikit-learn
 - Matplotlib
@@ -594,8 +767,6 @@ YOLO11 from Ultralytics is used for:
 - Seat-belt classification
 
 The pretrained YOLO11 model is used for person detection, while a custom-trained YOLO11 classification model is used for seat-belt classification.
-
-More information about Ultralytics YOLO can be found in the official documentation.
 
 ### OpenCV
 
